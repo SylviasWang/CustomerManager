@@ -1,12 +1,13 @@
-using CustomerManager.Core;
+ï»¿using CustomerManager.Core;
 using System.ComponentModel;
+using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace CustomerManager.WinForms
 {
 	public partial class Form1 : Form
 	{
-		public BindingList<Customer> CustomerList = new BindingList<Customer>();
+		private ICustomerRepository? repository;   // æ¬„ä½:å‹åˆ¥æ˜¯ã€Œä»‹é¢ã€
 
 		private DataGridView Grid;
 		private TextBox txtName;
@@ -19,27 +20,28 @@ namespace CustomerManager.WinForms
 		public Form1()
 		{
 			InitializeComponent();
+			repository = new InMemoryCustomerRepository();   // åª new ä¸€æ¬¡
 
-			var CustomerOne = new Customer {ID = 0, Name = "¤ı¤p©ú", Gender = Gender.Male, Birthday = new DateTime(1990, 5, 20), Phone = "0911111111", Email = "a@test.com" };
-			var CustomerTwo = new Customer {ID = 1, Name = "¤ı¤p©ú2", Gender = Gender.Female, Birthday = new DateTime(1991, 7, 15), Phone = "0922222222", Email = "a1@test.com" };
-			var CustomerThree = new Customer {ID = 2, Name = "¤ı¤p©ú3", Gender = Gender.Other, Birthday = new DateTime(1992, 3, 1), Phone = "0933333333", Email = "a2@test.com" };
-			CustomerList.Add (CustomerOne);
-			CustomerList.Add (CustomerTwo);
-			CustomerList.Add (CustomerThree);
+			var CustomerOne = new Customer {ID = 0, Name = "ç‹å°æ˜", Gender = Gender.Male, Birthday = new DateTime(1990, 5, 20), Phone = "0911111111", Email = "a@test.com" };
+			var CustomerTwo = new Customer {ID = 1, Name = "ç‹å°æ˜2", Gender = Gender.Female, Birthday = new DateTime(1991, 7, 15), Phone = "0922222222", Email = "a1@test.com" };
+			var CustomerThree = new Customer {ID = 2, Name = "ç‹å°æ˜3", Gender = Gender.Other, Birthday = new DateTime(1992, 3, 1), Phone = "0933333333", Email = "a2@test.com" };
+			repository.Add (CustomerOne);
+			repository.Add (CustomerTwo);
+			repository.Add (CustomerThree);
 
-			// ªí®æ
+			// è¡¨æ ¼
 			Grid = new DataGridView();
 			Grid.Location = new Point(0, 0);   
 			Grid.Size = new Size(800, 250);
-			Grid.DataSource = CustomerList;
+			Grid.DataSource = new BindingList<Customer>(repository.GetAll());
 			Grid.AutoGenerateColumns = false;
 
 			Grid.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ID", HeaderText = "ID" });
-			Grid.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Name", HeaderText = "©m¦W" });
-			Grid.Columns.Add(new DataGridViewComboBoxColumn { DataPropertyName = "Gender", HeaderText = "©Ê§O", DataSource = Enum.GetValues(typeof(Gender)) });
-			Grid.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Birthday", HeaderText = "¥Í¤é" , DefaultCellStyle = new DataGridViewCellStyle { Format = "yyyy/MM/dd" } });
-			Grid.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Phone", HeaderText = "¹q¸Ü" });
-			Grid.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Email", HeaderText = "¶l½c" });
+			Grid.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Name", HeaderText = "å§“å" });
+			Grid.Columns.Add(new DataGridViewComboBoxColumn { DataPropertyName = "Gender", HeaderText = "æ€§åˆ¥", DataSource = Enum.GetValues(typeof(Gender)) });
+			Grid.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Birthday", HeaderText = "ç”Ÿæ—¥" , DefaultCellStyle = new DataGridViewCellStyle { Format = "yyyy/MM/dd" } });
+			Grid.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Phone", HeaderText = "é›»è©±" });
+			Grid.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Email", HeaderText = "éƒµç®±" });
 
 			Grid.ReadOnly = true;
 			Grid.AllowUserToAddRows = false;
@@ -47,9 +49,9 @@ namespace CustomerManager.WinForms
 
 			Controls.Add(Grid);
 
-			// ©m¦W
+			// å§“å
 			Label lblName = new Label();
-			lblName.Text = "©m¦W:";
+			lblName.Text = "å§“å:";
 			lblName.Location = new Point(20, 270);    
 			lblName.Size = new Size(50, 25);
 			Controls.Add(lblName);
@@ -59,9 +61,9 @@ namespace CustomerManager.WinForms
 			txtName.Size = new Size(150, 25);
 			Controls.Add(txtName);
 
-			// ©Ê§O
+			// æ€§åˆ¥
 			Label lblGender = new Label();
-			lblGender.Text = "©Ê§O:";
+			lblGender.Text = "æ€§åˆ¥:";
 			lblGender.Location = new Point(250, 270);   
 			lblGender.Size = new Size(50, 25);
 			Controls.Add(lblGender);
@@ -74,9 +76,9 @@ namespace CustomerManager.WinForms
 			cbGender.SelectedItem = Gender.Male;
 			Controls.Add(cbGender);
 
-			// ¥Í¤é
+			// ç”Ÿæ—¥
 			Label lblBirthday = new Label();
-			lblBirthday.Text = "¥Í¤é:";
+			lblBirthday.Text = "ç”Ÿæ—¥:";
 			lblBirthday.Location = new Point(475, 270);    
 			lblBirthday.Size = new Size(50, 25);
 			Controls.Add(lblBirthday);
@@ -84,12 +86,12 @@ namespace CustomerManager.WinForms
 			dtpBirthday = new DateTimePicker();
 			dtpBirthday.Location = new Point(525, 270);
 			dtpBirthday.Size = new Size(150, 25);
-			dtpBirthday.Format = DateTimePickerFormat.Short;   // ¥uÅã¥Ü¤é´Á,¤£§t®É¶¡
+			dtpBirthday.Format = DateTimePickerFormat.Short;   // åªé¡¯ç¤ºæ—¥æœŸ,ä¸å«æ™‚é–“
 			Controls.Add(dtpBirthday);
 
-			// ¹q¸Ü
+			// é›»è©±
 			Label lblPhone = new Label();
-			lblPhone.Text = "¹q¸Ü:";
+			lblPhone.Text = "é›»è©±:";
 			lblPhone.Location = new Point(20, 300);    
 			lblPhone.Size = new Size(50, 25);
 			Controls.Add(lblPhone);
@@ -99,9 +101,9 @@ namespace CustomerManager.WinForms
 			txtPhone.Size = new Size(150, 25);
 			Controls.Add(txtPhone);
 
-			// «H½c
+			// ä¿¡ç®±
 			Label lblMail = new Label();
-			lblMail.Text = "«H½c:";
+			lblMail.Text = "ä¿¡ç®±:";
 			lblMail.Location = new Point(250, 300);
 			lblMail.Size = new Size(50, 25);
 			Controls.Add(lblMail);
@@ -111,11 +113,11 @@ namespace CustomerManager.WinForms
 			txtMail.Size = new Size(150, 25);
 			Controls.Add(txtMail);
 
-			// ·s¼W
+			// æ–°å¢
 			Button btnAdd = new Button();
 			btnAdd.Location = new Point(475, 305);  
 			btnAdd.Size = new Size(100, 25);
-			btnAdd.Text = "·s¼W";
+			btnAdd.Text = "æ–°å¢";
 			Controls.Add(btnAdd);
 
 			btnAdd.Click += (sender, e) =>
@@ -126,52 +128,68 @@ namespace CustomerManager.WinForms
 
 				if (txtName.Text == string.Empty)
 				{
-					MessageBox.Show("½Ğ¿é¤J©m¦W!");
+					MessageBox.Show("è«‹è¼¸å…¥å§“å!");
 					return;
 				}
 
 				if (txtPhone.Text == string.Empty)
 				{
-					MessageBox.Show("½Ğ¿é¤J¹q¸Ü!");
+					MessageBox.Show("è«‹è¼¸å…¥é›»è©±!");
 					return;
 				}
 
 				if (txtMail.Text == string.Empty)
 				{
-					MessageBox.Show("½Ğ¿é¤J«H½c!");
+					MessageBox.Show("è«‹è¼¸å…¥ä¿¡ç®±!");
 					return;
 				}
 
 				int newId = 0;
-				if (CustomerList.Count != 0)
-					newId = CustomerList.Max(c => c.ID) + 1;
+				if (repository.GetAll ().Count != 0)
+					newId = repository.GetAll().Max(c => c.ID) + 1;
 
-				CustomerList.Add(new Customer { ID = newId, Name = txtName.Text, Gender = (Gender)selectedGender, Birthday = dtpBirthday.Value.Date, Phone = txtPhone.Text, Email = txtMail.Text });
+				repository.Add(new Customer { ID = newId, Name = txtName.Text, Gender = (Gender)selectedGender, Birthday = dtpBirthday.Value.Date, Phone = txtPhone.Text, Email = txtMail.Text });
 
+				LoadCustomers();
 				SelDataOrDefault();
 			};
 
-			// §R°£
+			// åˆªé™¤
 			Button btnDelete = new Button();
 			btnDelete.Location = new Point(585, 305);    
 			btnDelete.Size = new Size(100, 25);
-			btnDelete.Text = "§R°£";
+			btnDelete.Text = "åˆªé™¤";
 			Controls.Add(btnDelete);
 
 			btnDelete.Click += (sender, e) =>
 			{
+				if (Grid.CurrentRow == null) 
+					return;
+
 				var selected = Grid.CurrentRow.DataBoundItem as Customer;
 				if (selected != null)
-					CustomerList.Remove(selected);
+				{
+					if (Grid.CurrentRow.Index == repository.GetAll().Count - 1)
+					{
+						Grid.ClearSelection(); // æ¸…é™¤ç¾æœ‰é¸å–
+						if ((repository.GetAll().Count - 1) != 0)
+						{
+							Grid.Rows[0].Selected = true; // é¸å–æŒ‡å®šåˆ—
+							Grid.CurrentCell = Grid.Rows[0].Cells[0]; // å°‡ç„¦é»ç§»å‹•åˆ°è©²åˆ—çš„ç¬¬ä¸€å€‹å„²å­˜æ ¼
+						}
+					}
+					repository.Delete(selected.ID);
+				}
 
+				LoadCustomers();
 				SelDataOrDefault();
 			};
 
-			// ­×§ï
+			// ä¿®æ”¹
 			Button btnEdit = new Button();
 			btnEdit.Location = new Point(695, 305);    
 			btnEdit.Size = new Size(100, 25);
-			btnEdit.Text = "­×§ï";
+			btnEdit.Text = "ä¿®æ”¹";
 			Controls.Add(btnEdit);
 
 			btnEdit.Click += (sender, e) =>
@@ -185,48 +203,51 @@ namespace CustomerManager.WinForms
 
 					if (txtName.Text == string.Empty)
 					{
-						MessageBox.Show("½Ğ¿é¤J©m¦W!");
+						MessageBox.Show("è«‹è¼¸å…¥å§“å!");
 						return;
 					}
 
 					if (txtPhone.Text == string.Empty)
 					{
-						MessageBox.Show("½Ğ¿é¤J¹q¸Ü!");
+						MessageBox.Show("è«‹è¼¸å…¥é›»è©±!");
 						return;
 					}
 
 					if (txtMail.Text == string.Empty)
 					{
-						MessageBox.Show("½Ğ¿é¤J«H½c!");
+						MessageBox.Show("è«‹è¼¸å…¥ä¿¡ç®±!");
 						return;
 					}
 
-					selected.Name = txtName.Text;
-					selected.Gender = (Gender)selectedGender;
-					selected.Birthday = dtpBirthday.Value.Date;
-					selected.Phone = txtPhone.Text;
-					selected.Email = txtMail.Text;
+					Customer edit = new Customer ();
+					edit.ID = selected.ID;
+					edit.Name = txtName.Text;
+					edit.Gender = (Gender)selectedGender;
+					edit.Birthday = dtpBirthday.Value.Date;
+					edit.Phone = txtPhone.Text;
+					edit.Email = txtMail.Text;
 
-					Grid.Refresh();
+					repository.Update (edit);
+					LoadCustomers();
 				}
 			};
 
 			Grid.SelectionChanged += (sender, e) =>
-			{ 
+			{
 				SelDataOrDefault();
 			};
 		}
 
 		public void SelDataOrDefault()
 		{
-			if (Grid.CurrentRow != null)
+			if (Grid.CurrentRow != null && Grid.CurrentRow.DataBoundItem != null)
 			{ 
 				var selected = Grid.CurrentRow.DataBoundItem as Customer;
 				if (selected != null)
 				{
 					txtName.Text = selected.Name;
 					cbGender.SelectedItem = selected.Gender;
-					dtpBirthday.Value = selected.Birthday;
+					dtpBirthday.Value = selected.Birthday.Date;
 					txtPhone.Text = selected.Phone;
 					txtMail.Text = selected.Email;
 				}
@@ -234,11 +255,16 @@ namespace CustomerManager.WinForms
 			else
 			{
 				txtName.Text = string.Empty;
-				dtpBirthday.Value = DateTime.Now;
+				dtpBirthday.Value = DateTime.Now.Date;
 				cbGender.SelectedItem = Gender.Male;
 				txtPhone.Text = string.Empty;
 				txtMail.Text = string.Empty;
 			}
+		}
+
+		private void LoadCustomers()
+		{
+			Grid.DataSource = new BindingList<Customer>(repository.GetAll());
 		}
 	}
 }
