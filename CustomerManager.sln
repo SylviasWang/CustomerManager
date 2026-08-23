@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManager.WinForms", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManager.Data", "CustomerManager.Data\CustomerManager.Data.csproj", "{2D024ED6-15EF-4C69-BF44-3787FAE72684}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManager.Tests", "CustomerManager.Tests\CustomerManager.Tests\CustomerManager.Tests.csproj", "{FB709FFE-9F7A-5A54-AD6D-31C723596654}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{2D024ED6-15EF-4C69-BF44-3787FAE72684}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D024ED6-15EF-4C69-BF44-3787FAE72684}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D024ED6-15EF-4C69-BF44-3787FAE72684}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB709FFE-9F7A-5A54-AD6D-31C723596654}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB709FFE-9F7A-5A54-AD6D-31C723596654}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB709FFE-9F7A-5A54-AD6D-31C723596654}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB709FFE-9F7A-5A54-AD6D-31C723596654}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
