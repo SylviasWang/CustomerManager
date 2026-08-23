@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CustomerManager.Core;
 
-namespace CustomerManager.Core
+namespace CustomerManager.Data
 {
 	public class InMemoryCustomerRepository : ICustomerRepository
 	{
