@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CustomerManager.Core\CustomerManager.Core.csproj" />
+    <ProjectReference Include="..\CustomerManager.Data\CustomerManager.Data.csproj" />
   </ItemGroup>
 
 </Project>

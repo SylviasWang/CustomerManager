@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManager.Core", "Cus
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManager.WinForms", "CustomerManager.WinForms\CustomerManager.WinForms.csproj", "{ED9276B5-5350-46B8-A80A-487BB5C68767}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManager.Data", "CustomerManager.Data\CustomerManager.Data.csproj", "{2D024ED6-15EF-4C69-BF44-3787FAE72684}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{ED9276B5-5350-46B8-A80A-487BB5C68767}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED9276B5-5350-46B8-A80A-487BB5C68767}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED9276B5-5350-46B8-A80A-487BB5C68767}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D024ED6-15EF-4C69-BF44-3787FAE72684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D024ED6-15EF-4C69-BF44-3787FAE72684}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D024ED6-15EF-4C69-BF44-3787FAE72684}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D024ED6-15EF-4C69-BF44-3787FAE72684}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

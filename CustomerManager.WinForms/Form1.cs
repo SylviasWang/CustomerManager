@@ -1,4 +1,5 @@
 ﻿using CustomerManager.Core;
+using CustomerManager.Data;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -7,7 +8,7 @@ namespace CustomerManager.WinForms
 {
 	public partial class Form1 : Form
 	{
-		private ICustomerRepository? repository;   // 欄位:型別是「介面」
+		private ICustomerRepository repository;   // 欄位:型別是「介面」
 
 		private DataGridView Grid;
 		private TextBox txtName;
@@ -20,14 +21,15 @@ namespace CustomerManager.WinForms
 		public Form1()
 		{
 			InitializeComponent();
-			repository = new InMemoryCustomerRepository();   // 只 new 一次
+			//repository = new InMemoryCustomerRepository(); 
+			repository = new SqlCustomerRepository();
 
-			var CustomerOne = new Customer {ID = 0, Name = "王小明", Gender = Gender.Male, Birthday = new DateTime(1990, 5, 20), Phone = "0911111111", Email = "a@test.com" };
-			var CustomerTwo = new Customer {ID = 1, Name = "王小明2", Gender = Gender.Female, Birthday = new DateTime(1991, 7, 15), Phone = "0922222222", Email = "a1@test.com" };
-			var CustomerThree = new Customer {ID = 2, Name = "王小明3", Gender = Gender.Other, Birthday = new DateTime(1992, 3, 1), Phone = "0933333333", Email = "a2@test.com" };
-			repository.Add (CustomerOne);
-			repository.Add (CustomerTwo);
-			repository.Add (CustomerThree);
+			//var CustomerOne = new Customer {ID = 0, Name = "王小明", Gender = Gender.Male, Birthday = new DateTime(1990, 5, 20), Phone = "0911111111", Email = "a@test.com" };
+			//var CustomerTwo = new Customer {ID = 1, Name = "王小明2", Gender = Gender.Female, Birthday = new DateTime(1991, 7, 15), Phone = "0922222222", Email = "a1@test.com" };
+			//var CustomerThree = new Customer {ID = 2, Name = "王小明3", Gender = Gender.Other, Birthday = new DateTime(1992, 3, 1), Phone = "0933333333", Email = "a2@test.com" };
+			//repository.Add (CustomerOne);
+			//repository.Add (CustomerTwo);
+			//repository.Add (CustomerThree);
 
 			// 表格
 			Grid = new DataGridView();
@@ -48,6 +50,7 @@ namespace CustomerManager.WinForms
 			Grid.AllowUserToDeleteRows = false;
 
 			Controls.Add(Grid);
+			LoadCustomers();
 
 			// 姓名
 			Label lblName = new Label();
